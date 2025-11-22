@@ -8,177 +8,147 @@
   <style>
     :root {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #020617;
+      background: linear-gradient(
+        115deg,
+        #1e293b 0%,
+        #0f172a 40%,
+        #0a1320 100%
+      );
       color: #e5e7eb;
     }
+
     body {
       margin: 0;
-      padding: 1.5rem;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      box-sizing: border-box;
     }
+
     .container {
-      max-width: 1100px;
+      width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
     }
+
     h1 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0 0 0.35rem 0;
+      letter-spacing: 0.02em;
     }
+
     .subtitle {
-      color: #64748b;
-      margin-bottom: 1.5rem;
+      color: #9ca3af;
+      margin-bottom: 1.8rem;
+      font-size: 0.9rem;
     }
+
+    .section-title {
+      margin: 1.75rem 0 0.9rem;
+      font-size: 1rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
+      gap: 1.3rem;
       margin-bottom: 1.5rem;
+      align-items: stretch;
     }
+
     .card {
       background: #020617;
-      border-radius: 0.75rem;
-      padding: 1rem 1.2rem;
-      border: 1px solid #1f2937;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+      border-radius: 0rem; /* more squared */
+      padding: 1.25rem 1.4rem;
+      /* border: 1px solid rgba(148, 163, 184, 0.2); */
+      box-shadow:
+        0 14px 30px rgba(15, 23, 42, 0.7),
+        0 0 0 1px rgba(15, 23, 42, 0.7);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+
     .card h2 {
-      font-size: 1.1rem;
-      margin: 0 0 0.8rem 0;
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0 0 0.9rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      color: #e5e7eb;
     }
+
     .badge {
-      padding: 0.1rem 0.5rem;
+      padding: 0.15rem 0.55rem;
       border-radius: 999px;
       font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+      border: 1px solid transparent;
+      background: rgba(15, 23, 42, 0.85);
     }
+
     .badge.ok {
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.18);
+      border-color: rgba(34, 197, 94, 0.55);
       color: #4ade80;
     }
+
     .badge.warn {
-      background: rgba(234, 179, 8, 0.15);
-      border: 1px solid rgba(234, 179, 8, 0.4);
+      background: rgba(234, 179, 8, 0.16);
+      border-color: rgba(234, 179, 8, 0.55);
       color: #facc15;
     }
-    .badge.crit, .badge.offline {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
+
+    .badge.crit,
+    .badge.offline {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.6);
       color: #f97373;
     }
+
     .badge.offline {
       text-transform: none;
     }
+
     .metric {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      margin-bottom: 0.3rem;
-    }
-    .metric span.value {
-      font-variant-numeric: tabular-nums;
-      color: #e5e7eb;
-    }
-    .metric span.label {
-      color: #9ca
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>HomePi Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-    }
-    body {
-      margin: 0;
-      padding: 1.5rem;
-    }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-    .subtitle {
-      color: #64748b;
-      margin-bottom: 1.5rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .card {
-      background: #020617;
-      border-radius: 0.75rem;
-      padding: 1rem 1.2rem;
-      border: 1px solid #1f2937;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
-    }
-    .card h2 {
-      font-size: 1.1rem;
-      margin: 0 0 0.8rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    .badge {
-      padding: 0.1rem 0.5rem;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .badge.ok {
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      color: #4ade80;
-    }
-    .badge.warn {
-      background: rgba(234, 179, 8, 0.15);
-      border: 1px solid rgba(234, 179, 8, 0.4);
-      color: #facc15;
-    }
-    .badge.crit, .badge.offline {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #f97373;
-    }
-    .badge.offline {
-      text-transform: none;
-    }
-    .metric {
-      display: flex;
-      justify-content: space-between;
       font-size: 0.9rem;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.35rem;
     }
+
     .metric span.value {
       font-variant-numeric: tabular-nums;
       color: #e5e7eb;
+      font-weight: 500;
     }
+
     .metric span.label {
       color: #9ca3af;
     }
+
     .progress {
       width: 100%;
       height: 6px;
       border-radius: 999px;
-      background: #111827;
+      background: #020617;
       overflow: hidden;
-      margin-top: 0.3rem;
-      margin-bottom: 0.4rem;
+      margin-top: 0.4rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid rgba(30, 64, 175, 0.3);
     }
+
     .progress-inner {
       height: 100%;
       width: 0%;
@@ -186,76 +156,100 @@
       background: linear-gradient(90deg, #22c55e, #eab308, #ef4444);
       transition: width 0.3s ease;
     }
-    .section-title {
-      margin: 1.5rem 0 0.8rem;
-      font-size: 1.1rem;
-      color: #e5e7eb;
-    }
+
     .actions {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.6rem;
       flex-wrap: wrap;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
     }
+
     button {
       border-radius: 999px;
-      border: 1px solid #1f2937;
+      border: 1px solid rgba(148, 163, 184, 0.4);
       background: #020617;
-      padding: 0.35rem 0.9rem;
+      padding: 0.4rem 1rem;
       font-size: 0.85rem;
       cursor: pointer;
       color: #e5e7eb;
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-      transition: background 0.15s ease, transform 0.05s ease, border-color 0.15s ease;
+      transition:
+        background 0.15s ease,
+        transform 0.05s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+      white-space: nowrap;
     }
+
     button:hover {
-      background: #0f172a;
-      border-color: #334155;
+      background: #0b1120;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
       transform: translateY(-1px);
     }
+
     button:disabled {
-      opacity: 0.4;
+      opacity: 0.45;
       cursor: default;
       transform: none;
+      box-shadow: none;
     }
+
     button.primary {
       border-color: #22c55e;
     }
+
     button.danger {
       border-color: #ef4444;
     }
+
     .text-muted {
       color: #6b7280;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
     }
+
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
-      padding: 0.15rem 0.5rem;
+      gap: 0.35rem;
+      padding: 0.18rem 0.6rem;
       border-radius: 999px;
       background: #020617;
-      border: 1px solid #1f2937;
+      border: 1px solid rgba(148, 163, 184, 0.45);
       font-size: 0.75rem;
       color: #9ca3af;
     }
+
     .pill-dot {
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: #dc2626;
+      background: #ef4444;
+      box-shadow: 0 0 8px rgba(248, 113, 113, 0.7);
     }
+
     .pill-dot.online {
       background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
     }
+
     .footer {
-      margin-top: 1.5rem;
+      margin-top: 1.75rem;
       font-size: 0.75rem;
       color: #4b5563;
     }
+
+    /* Logs card inherits .card look, keep monospace overrides from inline style */
+    #mc-logs-card {
+      background: #020617;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
   </style>
+
 </head>
 <body>
   <div class="container">
@@ -315,7 +309,7 @@
         </h2>
         <div class="metric">
           <span class="label">Process</span>
-          <span id="mc-process-state" class="value">–</span>
+          <span id="mc-process-state" class="value" style="text-transform: capitalize;">–</span>
         </div>
         <div class="metric">
           <span class="label">Players</span>
@@ -333,29 +327,15 @@
 
       <div class="card">
         <h2>
-          Activity
+          Actions
           <span id="mc-mood-badge" class="badge">...</span>
         </h2>
-        <div class="metric">
-          <span class="label">CPU</span>
-          <span id="mc-cpu" class="value">–</span>
-        </div>
-        <div class="progress">
-          <div id="mc-cpu-bar" class="progress-inner"></div>
-        </div>
-        <div class="metric">
-          <span class="label">RAM used</span>
-          <span id="mc-ram" class="value">–</span>
-        </div>
-        <div class="progress">
-          <div id="mc-ram-bar" class="progress-inner"></div>
-        </div>
-        <div class="text-muted" id="mc-activity-extra"></div>
-
-        <div class="actions">
-          <button style="cursor: pointer;" id="btn-start" class="primary">Start</button>
-          <button style="cursor: pointer;" id="btn-restart">Restart</button>
-          <button style="cursor: pointer;" id="btn-stop" class="danger">Stop</button>
+        <div class="actions" style="height: 60px">
+          <div style="height: 100%; display: flex; justify-content: space-between; align-items: center; column-gap: 12px;">
+            <button style="cursor: pointer;" id="btn-start" class="primary">Start</button>
+            <button style="cursor: pointer;" id="btn-restart">Restart</button>
+            <button style="cursor: pointer;" id="btn-stop" class="danger">Stop</button>
+          </div>
         </div>
         <div class="text-muted" id="mc-action-status"></div>
       </div>

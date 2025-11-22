@@ -52,8 +52,6 @@ def minecraft_logs(lines: int = Query(200, ge=10, le=1000)):
     return get_minecraft_logs(lines=lines)
 
 
-# ====== ACTIONS ======
-
 @router.post("/start")
 def minecraft_start():
     return start_minecraft()
