@@ -12,7 +12,7 @@ from app.utils.system import get_cpu_usage, get_ram_usage
 MC_HOST = "127.0.0.1"          
 MC_PORT = 25565              
 MC_ADDRESS = f"{MC_HOST}:{MC_PORT}"
-MC_ROOT_DIR = "/home/arnaud/minecraft/creepers-du-nether"  
+MC_ROOT_DIR = "/home/arnaud/minecraft/servers/creepers-du-nether"  
 MC_SYSTEMD_SERVICE = "mc-cdn.service"  
 
 
@@ -99,7 +99,34 @@ def get_minecraft_logs(lines: int = 200) -> Dict[str, Any]:
     """
     Return the last N lines of latest.log.
     """
-    # TODO Arnaud
+    log_file = os.path.join(MC_ROOT_DIR, "logs", "latest.log")
+
+    try:
+        with open(log_file, "r", errors="replace") as f:
+            all_lines = f.readlines()
+
+        last_lines = all_lines[-lines:]
+        text = "".join(last_lines)
+
+        return {
+            "ok": True,
+            "lines": text,
+            "count": len(last_lines),
+            "path": log_file,
+        }
+    except FileNotFoundError:
+        return {
+            "ok": False,
+            "error": f"log file not found at {log_file}",
+            "lines": "",
+        }
+    except Exception as e:
+        return {
+            "ok": False,
+            "error": str(e),
+            "lines": "",
+        }
+
 
 
 def _run_systemctl_action(action: str) -> Dict[str, Any]:

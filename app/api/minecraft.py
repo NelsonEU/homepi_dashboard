@@ -31,8 +31,8 @@ def minecraft_status():
     process = get_minecraft_process_status()
 
     return {
-        "network": status,   # online/latency/players
-        "process": process,  # systemd state
+        "network": status, 
+        "process": process,
     }
 
 
