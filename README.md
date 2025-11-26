@@ -30,7 +30,7 @@ All endpoints are protected using **HTTP Basic Auth** with credentials.
 
 Backend runs as a persistent **systemd service**.
 
-### Example unit:
+### dashboard.service:
 
     [Unit]
     Description=HomePi Dashboard API
@@ -45,11 +45,6 @@ Backend runs as a persistent **systemd service**.
     [Install]
     WantedBy=multi-user.target
 
-Enable & start:
-
-    sudo systemctl enable dashboard.service
-    sudo systemctl start dashboard.service
-
 ### run.sh
 
     #!/usr/bin/env bash
@@ -58,13 +53,11 @@ Enable & start:
     cd /home/arnaud/dashboard_api
     exec /home/arnaud/dashboard_api/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 
+
 ## 📦 Frontend Integration
 
 Static assets served from: `/public/`
 
-## 🌐 Public Access
-
-Exposed through a **Cloudflare Tunnel**, running as a persistent **systemd service**.
 
 ## 🧰 Development
 
