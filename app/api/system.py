@@ -1,10 +1,8 @@
 from fastapi import APIRouter
-from app.utils.system import (
-    get_cpu_temperature,
-    get_cpu_usage,
-    get_ram_usage,
-    get_disk_usage
-)
+from app.factories import cpu_factory
+from app.factories import memory_factory
+from app.models.memory_model import MemoryModel
+from app.models.cpu_model import CpuModel
 
 router = APIRouter(
     prefix="/api/system",
@@ -12,17 +10,11 @@ router = APIRouter(
 )
 
 
-@router.get("")
-def system():
-    temp_info = get_cpu_temperature()
+@router.get("/cpu", response_model=CpuModel)
+def get_cpu():
+    return cpu_factory.build()
 
-    return {
-        "cpu": {
-            "temperature":  get_cpu_temperature(),
-            "usage": get_cpu_usage()
-        },
-        "memory": {
-            "ram": get_ram_usage(),
-            "disk": get_disk_usage()
-        }
-    }
+
+@router.get("/memory", response_model=MemoryModel)
+def get_memory():
+    return memory_factory.build()
