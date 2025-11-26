@@ -1,23 +1,78 @@
-# 🏠 HomePi Dashboard
+# 🛠️ HomePi Dashboard API
 
-A lightweight monitoring and control dashboard for my Raspberry Pi 5 and Minecraft server.
-Built with FastAPI, vanilla JavaScript and systemd.
+Backend service powering the HomePi Dashboard UI.
+Built with **FastAPI**, protected with **Basic Auth**, and deployed as a
+**systemd service** on a Raspberry Pi 5.
+
+Frontend repository:
+➡️ https://github.com/NelsonEU/homepi_dashboard_svelte
 
 ## ⭐️ Features
 
-### 🔧 *System Monitoring*
+### 🔧 System Endpoints
 
-- CPU temperature & usage
-- RAM and disk usage
-- Auto-refresh every 5 seconds
+-   CPU usage, temperature, load
+-   RAM + disk usage
+-   Health/status checks
 
-### 🟩 *Minecraft Management*
+### 🟩 Minecraft Endpoints
 
-- Start / Stop / Restart the server (via systemd)
-- Live server status (online/offline, latency, players, version)
-- Activity snapshot (CPU/RAM/mood)
-- Log tailing (polling-based with auto-scroll)
+-   Start / Stop / Restart via systemd
+-   Live server status (ping, latency, players, MOTD)
+-   Log retrieval & tailing
+-   Process monitoring
 
-## Screenshot
+### 🔐 Authentication
 
-![screenshot](frontend/static/screenshot.png)
+All endpoints are protected using **HTTP Basic Auth** with credentials.
+
+## 🚀 Deployment
+
+Backend runs as a persistent **systemd service**.
+
+### Example unit:
+
+    [Unit]
+    Description=HomePi Dashboard API
+    After=network.target
+
+    [Service]
+    WorkingDirectory=/home/arnaud/dashboard_api
+    ExecStart=/home/arnaud/dashboard_api/run.sh
+    Restart=always
+    User=arnaud
+
+    [Install]
+    WantedBy=multi-user.target
+
+Enable & start:
+
+    sudo systemctl enable dashboard.service
+    sudo systemctl start dashboard.service
+
+### run.sh
+
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    cd /home/arnaud/dashboard_api
+    exec /home/arnaud/dashboard_api/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+## 📦 Frontend Integration
+
+Static assets served from: `/public/`
+
+## 🌐 Public Access
+
+Exposed through a **Cloudflare Tunnel**, running as a persistent **systemd service**.
+
+## 🧰 Development
+
+    python3 -m venv .venv
+    source .venv/bin/activate
+    uvicorn app.main:app --reload
+
+## 🔗 Related Repository
+
+Frontend (Svelte):
+➡️ https://github.com/NelsonEU/homepi_dashboard_svelte
