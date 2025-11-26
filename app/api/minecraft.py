@@ -1,54 +1,23 @@
 # app/api/minecraft.py
 
 from fastapi import APIRouter, Query
-
-from app.utils.minecraft import (
-    get_minecraft_status,
-    get_minecraft_activity,
-    get_minecraft_logs,
-    start_minecraft,
-    stop_minecraft,
-    restart_minecraft,
-    get_minecraft_process_status,
-)
+from app.models.minecraft_model import MinecraftModel
+from app.factories import minecraft_factory
+from app.utils.minecraft import get_minecraft_logs, start_minecraft, stop_minecraft, restart_minecraft
 
 router = APIRouter(
     prefix="/api/minecraft",
     tags=["minecraft"],
 )
 
-
-@router.get("/status")
-def minecraft_status():
-    """
-    High-level status:
-    - online/offline
-    - latency
-    - players (online / max / sample)
-    - process state (systemd)
-    """
-    status = get_minecraft_status()
-    process = get_minecraft_process_status()
-
-    return {
-        "network": status, 
-        "process": process,
-    }
-
-
-@router.get("/activity")
-def minecraft_activity():
-    """
-    'How is it feeling' – CPU, RAM, players, latency, mood.
-    """
-    return get_minecraft_activity()
+    
+@router.get("/activity", response_model=MinecraftModel)
+def get_activity():
+    return minecraft_factory.build()
 
 
 @router.get("/logs")
 def minecraft_logs(lines: int = Query(200, ge=10, le=1000)):
-    """
-    Return the last N lines of the Minecraft log.
-    """
     return get_minecraft_logs(lines=lines)
 
 

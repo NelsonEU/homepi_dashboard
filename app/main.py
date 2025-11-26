@@ -2,42 +2,50 @@ import os
 import secrets
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import system, minecraft  # you already have these
+from app.api import system, minecraft
+
 
 app = FastAPI()
+
+# TODO Arnaud: this will be an env variable
+DAHSBOARD_ORIGIN = "http://localhost:5173"
+DAHSBOARD_LOCAL_ORIGIN = "http://localhost:5174"
+DAHSBOARD_PROD_ORIGIN = "dashboard.sonnel.eu" 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[DAHSBOARD_ORIGIN, DAHSBOARD_LOCAL_ORIGIN, DAHSBOARD_PROD_ORIGIN],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ---------- Basic Auth ----------
 
 security = HTTPBasic()
 
+def basic_auth(request: Request,credentials: HTTPBasicCredentials = Depends(security)) -> bool:
+    if request.method == "OPTIONS":
+        return True
 
-def basic_auth(credentials: HTTPBasicCredentials = Depends(security)) -> bool:
-    """
-    Simple HTTP Basic auth protecting the dashboard & APIs.
-    Credentials come from env vars:
-    - DASHBOARD_USER
-    - DASHBOARD_PASSWORD
-    """
     username = os.getenv("DASHBOARD_USER")
     password = os.getenv("DASHBOARD_PASSWORD")
 
     if not username or not password:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Auth not configured on server",
-        )
+        raise HTTPException(status_code=500, detail="Auth not configured on server")
 
-    correct_username = secrets.compare_digest(credentials.username, username)
-    correct_password = secrets.compare_digest(credentials.password, password)
+    correct_user = secrets.compare_digest(credentials.username, username)
+    correct_pass = secrets.compare_digest(credentials.password, password)
 
-    if not (correct_username and correct_password):
+    if not (correct_user and correct_pass):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Invalid credentials",
             headers={"WWW-Authenticate": "Basic"},
         )
@@ -52,13 +60,23 @@ app.include_router(minecraft.router, dependencies=[Depends(basic_auth)])
 
 # ---------- Frontend (protected) ----------
 
-BASE_DIR = Path(__file__).resolve().parent.parent  # ~/dashboard
-FRONTEND_DIR = BASE_DIR / "frontend"
+BASE_DIR = Path(__file__).resolve().parent.parent 
+FRONTEND_BUILD_DIR = BASE_DIR / "public"          
 
-# Serve index.html at "/"
 @app.get("/", dependencies=[Depends(basic_auth)])
 def dashboard_index():
-    return FileResponse(FRONTEND_DIR / "index.html", media_type="text/html")
+    return FileResponse(FRONTEND_BUILD_DIR / "index.html")
+
+@app.get("/{path:path}", dependencies=[Depends(basic_auth)])
+def dashboard_static(path: str):
+    file_path = FRONTEND_BUILD_DIR / path
+
+    if file_path.is_file():
+        return FileResponse(file_path)
+
+    raise HTTPException(status_code=404)
+
+
 
 # app.mount(
 #     "/static",

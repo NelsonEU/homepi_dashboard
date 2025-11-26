@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
-cd /home/arnaud/dashboard
-source .venv/bin/activate
-exec uvicorn app.main:app --host 0.0.0.0 --port 8000
+set -euo pipefail
+
+cd /home/arnaud/dashboard_api
+
+# Start uvicorn using the venv python explicitly
+exec /home/arnaud/dashboard_api/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
