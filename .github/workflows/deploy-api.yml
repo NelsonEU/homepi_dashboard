@@ -1,4 +1,4 @@
-name: Deploy dashboard API to Pi
+name: Deploy dashboard API to the Pi
 
 on:
   push:
@@ -10,13 +10,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Update API code on Pi
+      - name: Update API code on the Pi
         run: |
           cd /home/arnaud/dashboard_api   
           git fetch origin
           git reset --hard origin/master
 
-      - name: Install dependencies
+      - name: Install dependencies (Optional)
         run: |
           cd /home/arnaud/dashboard_api
           source .venv/bin/activate
