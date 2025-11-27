@@ -1,2 +1,8 @@
 public/
 dashboard.env
+__pycache__/
+app/__pycache__/
+app/factories/__pycache__/
+app/models/__pycache__/
+app/utils/__pycache__/
+*.pyc
