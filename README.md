@@ -59,6 +59,11 @@ Backend runs as a persistent **systemd service**.
 Static assets served from: `/public/`
 
 
+## 🌐 Public Access
+
+Exposed through a **Cloudflare Tunnel** enabled as a systemd unit on the Pi.
+
+
 ## Development
 
     python3 -m venv .venv
