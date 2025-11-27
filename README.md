@@ -54,14 +54,14 @@ Backend runs as a persistent **systemd service**.
     exec /home/arnaud/dashboard_api/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 
-## Frontend Integration
+### Frontend Integration
 
 Static assets served from: `/public/`
 
 
 ## Public Access
 
-Exposed through a **Cloudflare Tunnel** enabled as a systemd unit on the Pi.
+Exposed through a **Cloudflare Tunnel** managed by a systemd service on the Raspberry Pi.
 
 
 ## Development
