@@ -8,19 +8,28 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
+    env:
+      DASHBOARD_ENV_PATH: /home/arnaud/dashboard-api/dashboard.env # Env file path
 
     steps:
-      - name: Update API code on the Pi
+      - name: Load shared env vars from Pi
         run: |
-          cd /home/arnaud/dashboard_api   
+          set -a
+          source "$DASHBOARD_ENV_PATH"
+          set +a
+          env | grep -E '^DASHBOARD_' >> "$GITHUB_ENV"
+
+      - name: Update API code on Pi
+        run: |
+          cd "$DASHBOARD_API_ROOT_DIR"
           git fetch origin
           git reset --hard origin/master
 
-      - name: Install dependencies (Optional)
+      - name: Install dependencies
         run: |
-          cd /home/arnaud/dashboard_api
+          cd "$DASHBOARD_API_ROOT_DIR"
           source .venv/bin/activate
 
       - name: Restart dashboard API service
         run: |
-          sudo systemctl restart dashboard.service
+          sudo systemctl restart "$DASHBOARD_API_SERVICE"
