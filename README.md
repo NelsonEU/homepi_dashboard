@@ -59,7 +59,7 @@ Backend runs as a persistent **systemd service**.
 Static assets served from: `/public/`
 
 
-## 🌐 Public Access
+## Public Access
 
 Exposed through a **Cloudflare Tunnel** enabled as a systemd unit on the Pi.
 
@@ -70,7 +70,7 @@ Exposed through a **Cloudflare Tunnel** enabled as a systemd unit on the Pi.
     source .venv/bin/activate
     uvicorn app.main:app --reload
 
-## 🔗 Related Repository
+## Related Repository
 
 Frontend (Svelte):
 ➡️ https://github.com/NelsonEU/homepi_dashboard_svelte
