@@ -1,0 +1,26 @@
+name: Deploy dashboard API to Pi
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Update API code on Pi
+        run: |
+          cd /home/arnaud/dashboard_api   
+          git fetch origin
+          git reset --hard origin/master
+
+      - name: Install dependencies
+        run: |
+          cd /home/arnaud/dashboard_api
+          source .venv/bin/activate
+
+      - name: Restart dashboard API service
+        run: |
+          sudo systemctl restart dashboard.service
