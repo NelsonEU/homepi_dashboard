@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Load prod env vars
-source /home/arnaud/dashboard-api/dashboard.env # Env file path
+source /home/arnaud/dashboard_api/dashboard.env # Env file path
 
 # Move to project root
 cd "$DASHBOARD_API_ROOT_DIR"

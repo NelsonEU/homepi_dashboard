@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     env:
-      DASHBOARD_ENV_PATH: /home/arnaud/dashboard-api/dashboard.env # Env file path
+      DASHBOARD_ENV_PATH: /home/arnaud/dashboard_api/dashboard.env # Env file path
 
     steps:
       - name: Load shared env vars from Pi
