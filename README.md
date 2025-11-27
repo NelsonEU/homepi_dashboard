@@ -1,4 +1,4 @@
-# 🛠️ HomePi Dashboard API
+# HomePi Dashboard API
 
 Backend service powering the HomePi Dashboard UI.
 Built with **FastAPI**, protected with **Basic Auth**, and deployed as a
@@ -7,26 +7,26 @@ Built with **FastAPI**, protected with **Basic Auth**, and deployed as a
 Frontend repository:
 ➡️ https://github.com/NelsonEU/homepi_dashboard_svelte
 
-## ⭐️ Features
+## Features
 
-### 🔧 System Endpoints
+### System Endpoints
 
 -   CPU usage, temperature, load
 -   RAM + disk usage
 -   Health/status checks
 
-### 🟩 Minecraft Endpoints
+### Minecraft Endpoints
 
 -   Start / Stop / Restart via systemd
 -   Live server status (ping, latency, players, MOTD)
 -   Log retrieval & tailing
 -   Process monitoring
 
-### 🔐 Authentication
+### Authentication
 
 All endpoints are protected using **HTTP Basic Auth** with credentials.
 
-## 🚀 Deployment
+## Deployment
 
 Backend runs as a persistent **systemd service**.
 
@@ -54,12 +54,12 @@ Backend runs as a persistent **systemd service**.
     exec /home/arnaud/dashboard_api/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 
-## 📦 Frontend Integration
+## Frontend Integration
 
 Static assets served from: `/public/`
 
 
-## 🧰 Development
+## Development
 
     python3 -m venv .venv
     source .venv/bin/activate
