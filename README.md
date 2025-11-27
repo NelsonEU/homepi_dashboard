@@ -37,10 +37,10 @@ Backend runs as a persistent **systemd service**.
     After=network.target
 
     [Service]
-    WorkingDirectory=/home/arnaud/dashboard_api
-    ExecStart=/home/arnaud/dashboard_api/run.sh
+    WorkingDirectory=<DASHBOARD_API_ROOT_DIR>
+    ExecStart=<DASHBOARD_API_ROOT_DIR>/run.sh
     Restart=always
-    User=arnaud
+    User=<PI_USERNAME>
 
     [Install]
     WantedBy=multi-user.target
@@ -50,8 +50,8 @@ Backend runs as a persistent **systemd service**.
     #!/usr/bin/env bash
     set -euo pipefail
 
-    cd /home/arnaud/dashboard_api
-    exec /home/arnaud/dashboard_api/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+    cd <DASHBOARD_API_ROOT_DIR>
+    exec <DASHBOARD_API_ROOT_DIR>/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 
 ### Frontend Integration
