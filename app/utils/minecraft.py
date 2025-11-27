@@ -6,12 +6,11 @@ from functools import lru_cache
 from typing import Dict, Any
 from mcstatus import JavaServer
 
-# TODO Arnaud: those should be env variables (later)
-MC_HOST = "127.0.0.1"          
-MC_PORT = 25565              
+MC_SYSTEMD_SERVICE = os.getenv("MC_SERVER_SERVICE")
+MC_ROOT_DIR = os.getenv('MC_SERVER_ROOT_DIR')
+MC_HOST = os.getenv("MC_SERVER_HOST")
+MC_PORT = os.getenv("MC_SERVER_PORT")
 MC_ADDRESS = f"{MC_HOST}:{MC_PORT}"
-MC_ROOT_DIR = "/home/arnaud/minecraft/servers/creepers-du-nether"  
-MC_SYSTEMD_SERVICE = "mc-cdn.service"  
 
 
 @lru_cache(maxsize=1)

@@ -13,14 +13,11 @@ from app.api import system, minecraft
 
 app = FastAPI()
 
-# TODO Arnaud: this will be an env variable
-DAHSBOARD_ORIGIN = "http://localhost:5173"
-DAHSBOARD_LOCAL_ORIGIN = "http://localhost:5174"
-DAHSBOARD_PROD_ORIGIN = "dashboard.sonnel.eu" 
+allowed_origins = os.getenv("DASHBOARD_ALLOWED_ORIGINS")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[DAHSBOARD_ORIGIN, DAHSBOARD_LOCAL_ORIGIN, DAHSBOARD_PROD_ORIGIN],
+    allow_origins=[allowed_origins],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -75,11 +72,3 @@ def dashboard_static(path: str):
         return FileResponse(file_path)
 
     raise HTTPException(status_code=404)
-
-
-
-# app.mount(
-#     "/static",
-#     StaticFiles(directory=str(FRONTEND_DIR / "static")),
-#     name="static",
-# )
