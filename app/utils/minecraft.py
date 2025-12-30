@@ -5,6 +5,7 @@ import subprocess
 from functools import lru_cache
 from typing import Dict, Any
 from mcstatus import JavaServer
+from app.utils.systemd import run_systemctl_action
 
 MC_SYSTEMD_SERVICE = os.getenv("MC_SERVER_SERVICE")
 MC_ROOT_DIR = os.getenv('MC_SERVER_ROOT_DIR')
@@ -74,41 +75,12 @@ def get_minecraft_logs(lines: int = 200) -> Dict[str, Any]:
 
 
 def start_minecraft() -> Dict[str, Any]:
-    return _run_systemctl_action("start")
+    return run_systemctl_action("start", MC_SYSTEMD_SERVICE)
 
 
 def stop_minecraft() -> Dict[str, Any]:
-    return _run_systemctl_action("stop")
+    return run_systemctl_action("stop", MC_SYSTEMD_SERVICE)
 
 
 def restart_minecraft() -> Dict[str, Any]:
-    return _run_systemctl_action("restart")
-    
-   
-def _run_systemctl_action(action: str) -> Dict[str, Any]:
-    """
-    Run a systemctl action on the MC service.
-    """
-    
-    cmd = ["sudo", "systemctl", action, MC_SYSTEMD_SERVICE]
-
-    try:
-        completed = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        return {
-            "ok":         completed.returncode == 0,
-            "stdout":     completed.stdout,
-            "stderr":     completed.stderr,
-            "returncode": completed.returncode,
-        }
-    except Exception as e:
-        return {
-            "ok":         False,
-            "stdout":     "",
-            "stderr":     str(e),
-            "returncode": None,
-        }
+    return run_systemctl_action("restart", MC_SYSTEMD_SERVICE)

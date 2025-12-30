@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import system, minecraft
+from app.api import system, minecraft, pinggy
 
 
 app = FastAPI()
@@ -54,6 +54,7 @@ def basic_auth(request: Request,credentials: HTTPBasicCredentials = Depends(secu
 
 app.include_router(system.router, dependencies=[Depends(basic_auth)])
 app.include_router(minecraft.router, dependencies=[Depends(basic_auth)])
+app.include_router(pinggy.router, dependencies=[Depends(basic_auth)])
 
 # ---------- Frontend (protected) ----------
 
